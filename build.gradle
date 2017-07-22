@@ -1,0 +1,65 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.0.M2'
+        junitPluginVersion = '1.0.0-M4'
+    }
+
+    repositories {
+        jcenter()
+        maven { url "http://repo.spring.io/libs-snapshot" }
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+subprojects {
+    // Overrides properties used by Maven bills of materials (BOMs)
+    ext['spring.version'] = '5.0.0.RC2'
+    ext['spring-cloud-task.version'] = '1.2.0.M2'
+    ext['kafka.version'] = '0.10.2.1'
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'io.spring.dependency-management'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    repositories {
+        jcenter()
+        maven { url "http://repo.spring.io/libs-snapshot" }
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+            mavenBom "org.springframework.integration:spring-integration-bom:${springIntegrationVersion}"
+            mavenBom "org.springframework.data:spring-data-releasetrain:${springDataVersion}"
+            mavenBom "io.projectreactor:reactor-bom:${reactorBomVersion}"
+        }
+
+        dependencies {
+            dependency "org.springframework.integration:spring-integration-kafka:${springIntegrationKafkaVersion}"
+
+            dependencySet(group: 'org.apache.kafka', version: "${kafkaVersion}".toString()) {
+                entry 'kafka-clients'
+                entry 'kafka_2.11'
+            }
+            dependencySet(group: 'org.apache.avro', version: "${avroVersion}".toString()) {
+                entry 'avro'
+                entry 'avro-mapred'
+            }
+            dependency "org.json:json:${jsonVersion}"
+            dependency "io.reactivex:rxjava:${rxJavaVersion}"
+        }
+    }
+
+    configurations.all {
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'log4j', module: 'log4j'
+    }
+
+}

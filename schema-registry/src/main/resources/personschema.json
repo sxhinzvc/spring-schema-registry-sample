@@ -1,0 +1,5 @@
+{
+  "subject": "AvroPerson",
+  "format": "avro",
+  "definition": "{\"name\":\"firstName\",\"type\":\"string\"},{\"name\":\"lastName\",\"type\":\"double\"},{\"name\":\"age\",\"type\":\"int\"}"
+}

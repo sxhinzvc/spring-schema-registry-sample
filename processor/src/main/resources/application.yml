@@ -1,0 +1,13 @@
+server.port: 8082
+
+spring.cloud.stream.bindings:
+  input:
+    destination: json-person
+    content-type: text/plain
+    consumer.headerMode: raw
+    group: processor-consumer
+  output:
+    destination: avro-person
+    content-type: application/*+avro
+
+spring.cloud.stream.schema-registry-client.endpoint: localhost:8085
