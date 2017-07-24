@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.generic.GenericRecordBuilder;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
@@ -17,15 +16,16 @@ import java.io.IOException;
 public class ProcessorTransformer {
 
     private final ObjectMapper objectMapper;
+    private final Schema schema;
 
-    public ProcessorTransformer(ObjectMapper objectMapper) {
+    public ProcessorTransformer(ObjectMapper objectMapper, Schema schema) {
         this.objectMapper = objectMapper;
+        this.schema = schema;
     }
 
     public Message<GenericRecord> transform(Message<String> message) throws IOException {
         JsonNode personJsonNode = objectMapper.readTree(message.getPayload());
 
-        Schema schema = new Schema.Parser().parse(new ClassPathResource("person.avsc").getInputStream());
         GenericRecordBuilder genericRecordBuilder = new GenericRecordBuilder(schema);
 
         GenericRecord record = genericRecordBuilder

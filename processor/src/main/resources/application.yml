@@ -10,4 +10,8 @@ spring.cloud.stream.bindings:
     destination: avro-person
     content-type: application/*+avro
 
-spring.cloud.stream.schema-registry-client.endpoint: localhost:8085
+# required for deserializing from avro-perosn topic
+# spring.coud.stream.schema.avro.readerSchema: person.avsc
+
+spring.cloud.stream.schema-registry-client.endpoint: http://localhost:8990/
+schema.id: 1

@@ -9,4 +9,5 @@ spring.cloud.stream.bindings:
     destination: error-person
     content-type: application/*+avro
 
-spring.cloud.stream.schema-registry-client.endpoint: localhost:8085
+spring.cloud.stream.schema-registry-client.endpoint: http://localhost:8990/
+schema.id: 1

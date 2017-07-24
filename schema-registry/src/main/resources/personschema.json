@@ -1,5 +1,5 @@
 {
-  "subject": "AvroPerson",
+  "subject": "avroperson",
   "format": "avro",
-  "definition": "{\"name\":\"firstName\",\"type\":\"string\"},{\"name\":\"lastName\",\"type\":\"double\"},{\"name\":\"age\",\"type\":\"int\"}"
+  "definition": "{\"namespace\":\"com.example.avro\",\"type\":\"record\",\"name\":\"AvroPerson\",\"fields\":[{\"name\":\"firstName\",\"type\":\"string\"},{\"name\":\"lastName\",\"type\":\"string\"},{\"name\":\"age\",\"type\":\"int\"}]}"
 }

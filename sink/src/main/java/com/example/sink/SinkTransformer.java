@@ -15,7 +15,7 @@ import java.io.IOException;
 @Component
 public class SinkTransformer {
 
-    private final Schema schema;
+    private Schema schema;
     private ObjectMapper objectMapper;
 
     public SinkTransformer(Schema schema, ObjectMapper objectMapper) {

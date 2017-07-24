@@ -6,6 +6,7 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.cloud.stream.schema.avro.AvroSchemaMessageConverter;
 import org.springframework.cloud.stream.schema.avro.AvroSchemaRegistryClientMessageConverter;
+import org.springframework.cloud.stream.schema.client.SchemaRegistryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
@@ -19,7 +20,6 @@ import java.io.IOException;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
 @EnableBinding(Sink.class)
-@EnableIntegration
 @Configuration
 public class FlowConfig {
 
@@ -35,7 +35,8 @@ public class FlowConfig {
     }
 
     @Bean
-    public Schema schema(@Value("classpath:person.avsc") Resource resource) throws IOException {
-        return new Schema.Parser().parse(resource.getInputStream());
+    public Schema schema(SchemaRegistryClient schemaRegistryClient, @Value("${schema.id}") int schemaId) {
+        String schemaString = schemaRegistryClient.fetch(schemaId);
+        return new Schema.Parser().parse(schemaString);
     }
 }
